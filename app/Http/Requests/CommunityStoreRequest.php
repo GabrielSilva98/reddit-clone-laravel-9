@@ -24,8 +24,8 @@ class CommunityStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:communities'],
-            'slug' => ['required', 'unique:communities'],
+            'name' => 'required',
+            'slug' => ['required'],
             'description' => ['required', 'min:5']
         ];
     }

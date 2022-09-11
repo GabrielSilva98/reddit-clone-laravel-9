@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create Community
+                Update Community
             </h2>
         </template>
 
@@ -27,7 +27,7 @@
                         <div class="flex items-center justify-end mt-4">
 
                             <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                Store
+                                Update
                             </PrimaryButton>
                         </div>
                     </form>
@@ -47,17 +47,14 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';  
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
-defineProps({
+const props = defineProps({
+    community: Object,
     errors: Object
 })
 
-const form = useForm({
-    name: '',
-    description: '',
-    slug: ''
-});
+const form = useForm(props.community);
 
 const submit = () => {
-    form.post(route('communities.store'));
+    form.put(route('communities.update', props.community.id));
 };
 </script>
