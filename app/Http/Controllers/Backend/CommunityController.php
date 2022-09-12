@@ -13,7 +13,12 @@ class CommunityController extends Controller
     
     public function index()
     {
-        $communities = Community::all();
+        $communities = Community::paginate(5)->through(fn ($community) => [
+            'id' => $community->id,
+            'name' => $community->name,
+            'slug' => $community->slug,
+        ]);
+        
         return Inertia::render('Communities/Index', compact('communities'));
     }
 
@@ -48,13 +53,13 @@ class CommunityController extends Controller
     {
         $community->update($request->validated());
 
-        return to_route('communities.index');
+        return to_route('communities.index')->with('message', 'Community updated successfully.');;
     }
 
     
     public function destroy(Community $community)
     {
         $community->delete();
-        return back('communities.index')->with('message', 'Community deleted successfully.');
+        return back()->with('message', 'Community deleted successfully.');
     }
 }
